@@ -1,0 +1,920 @@
+```html
+<!DOCTYPE html>
+<html lang="ku" dir="rtl" class="scroll-smooth">
+<head>
+    <form name="reservations" netlify>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خارنگەهـ و کافێیا پێلین | Pêlîn Restaurant & Cafe</title>
+    <!-- Tailwind CSS CDN -->
+    <script>
+  const originalWarn = console.warn;
+  console.warn = function (...args) {
+    if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) {
+      return;
+    }
+    originalWarn.apply(console, args);
+  };
+</script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+            
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Noto Sans Arabic & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Noto+Sans+Arabic:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#6B21A8',
+                            purpleDark: '#3B0764',
+                            purpleLight: '#A855F7',
+                            blue: '#1E40AF',
+                            blueDark: '#1E3A8A',
+                            blueLight: '#3B82F6',
+                            accent: '#C084FC',
+                            bgDark: '#0B0F19',
+                            cardBg: '#131B2E'
+                        }
+                    },
+                    fontFamily: {
+                        arabic: ['Noto Sans Arabic', 'sans-serif'],
+                        latin: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans Arabic', 'Montserrat', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+        }
+        .glass-nav {
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #A855F7 0%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-btn {
+            background: linear-gradient(135deg, #6B21A8 0%, #1E40AF 100%);
+            transition: all 0.3s ease;
+        }
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #7E22CE 0%, #1D4ED8 100%);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+        }
+        .active-tab {
+            background: linear-gradient(135deg, #6B21A8 0%, #1E40AF 100%);
+            color: #ffffff !important;
+            border-color: transparent !important;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b0764;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b21a8;
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-purpleLight selection:text-white pb-12">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- LOGO -->
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <a href="#" class="flex items-center gap-3 group">
+                        <div class="w-12 h-12 rounded-2xl gradient-btn flex items-center justify-center shadow-lg shadow-brand-purple/30 group-hover:scale-105 transition-transform">
+                            <i class="fa-solid font-bold text-2xl text-white fa-utensils"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-2xl sm:text-3xl font-extrabold tracking-wide gradient-text" id="brand-logo-name">پێلین</span>
+                            <span class="text-[10px] tracking-widest text-blue-400 uppercase font-semibold" id="brand-tagline">Restaurant & Cafe</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- DESKTOP MENU -->
+                <nav class="hidden md:flex items-center space-x-8 space-x-reverse font-medium text-sm">
+                    <a href="#hero" class="hover:text-brand-purpleLight transition-colors text-gray-200" data-i18n="nav-home">سەرەکی</a>
+                    <a href="#about" class="hover:text-brand-purpleLight transition-colors text-gray-200" data-i18n="nav-about">دەربارەی مە</a>
+                    <a href="#menu" class="hover:text-brand-purpleLight transition-colors text-gray-200" data-i18n="nav-menu">مێنیو</a>
+                    <a href="#reservation" class="hover:text-brand-purpleLight transition-colors text-gray-200" data-i18n="nav-reservation">حجزکرن</a>
+                    <a href="#contact" class="hover:text-brand-purpleLight transition-colors text-gray-200" data-i18n="nav-contact">پەیوەندی</a>
+                </nav>
+
+                <!-- RIGHT CONTROLS: Language & Mobile Toggle -->
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    
+                    <!-- LANGUAGE SWITCHER BUTTONS -->
+                    <div class="flex bg-gray-900/80 p-1 rounded-xl border border-gray-800">
+                        <button onclick="setLanguage('ku')" id="lang-ku" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all text-white bg-brand-purple">کورد</button>
+                        <button onclick="setLanguage('ar')" id="lang-ar" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all text-gray-400 hover:text-white">عربي</button>
+                        <button onclick="setLanguage('en')" id="lang-en" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all text-gray-400 hover:text-white">EN</button>
+                    </div>
+
+                    <!-- Call Button Quick Mobile -->
+                    <a href="tel:+9647500000000" class="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white transition-all border border-blue-500/30">
+                        <i class="fa-solid fa-phone"></i>
+                    </a>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-xl bg-gray-800/80 text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOBILE MENU DROPDOWN -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-purple-900/30 px-4 pt-3 pb-6 space-y-3">
+            <a href="#hero" class="mobile-link block px-3 py-2 rounded-lg text-base font-medium hover:bg-brand-purple/20 text-gray-200" data-i18n="nav-home">سەرەکی</a>
+            <a href="#about" class="mobile-link block px-3 py-2 rounded-lg text-base font-medium hover:bg-brand-purple/20 text-gray-200" data-i18n="nav-about">دەربارەی مە</a>
+            <a href="#menu" class="mobile-link block px-3 py-2 rounded-lg text-base font-medium hover:bg-brand-purple/20 text-gray-200" data-i18n="nav-menu">مێنیو</a>
+            <a href="#reservation" class="mobile-link block px-3 py-2 rounded-lg text-base font-medium hover:bg-brand-purple/20 text-gray-200" data-i18n="nav-reservation">حجزکرن</a>
+            <a href="#contact" class="mobile-link block px-3 py-2 rounded-lg text-base font-medium hover:bg-brand-purple/20 text-gray-200" data-i18n="nav-contact">پەیوەندی</a>
+            <div class="pt-2 border-t border-gray-800 flex justify-center">
+                <a href="tel:+9647500000000" class="w-full py-2.5 text-center gradient-btn rounded-xl font-bold text-white flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-phone"></i>
+                    <span data-i18n="call-us">پەیوەندیێ بکە</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden">
+        <!-- Background Glowing Orbs -->
+        <div class="absolute top-1/4 left-10 w-96 h-96 bg-brand-purple/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-brand-blue/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Left Content -->
+                <div class="text-center lg:text-start space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-900/30 border border-purple-500/30 text-purple-300 text-xs sm:text-sm font-semibold">
+                        <i class="fa-solid fa-location-dot text-brand-blueLight"></i>
+                        <span data-i18n="hero-badge">زاخۆ - باشترین خارنگەهـ و کافێ</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white">
+                        <span data-i18n="hero-title-1">تامەکا جیاواز و</span> <br>
+                        <span class="gradient-text" data-i18n="hero-title-2">کەشوهەوایەکێ سحراوی</span>
+                    </h1>
+
+                    <p class="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed" data-i18n="hero-desc">
+                        بەخێربهێن بۆ کافێ و خارنگەها پێلین ل زاخۆ. جهەکێ ناوازە بۆ خوارنێن خۆشێن کوردی و جیهانی، ڤەخوارنێن سارد و گەرم، دگەل خزمەتگۆزاریا بەرز.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#menu" class="w-full sm:w-auto px-8 py-4 gradient-btn text-white font-bold rounded-2xl shadow-lg flex items-center justify-center gap-3 text-base hover:scale-105 transition-all">
+                            <i class="fa-solid fa-utensils"></i>
+                            <span data-i18n="btn-view-menu">دیدەڤانیا مێنیویێ بکە</span>
+                        </a>
+                        <a href="#reservation" class="w-full sm:w-auto px-8 py-4 bg-gray-900/80 hover:bg-gray-800 text-white border border-purple-500/40 font-bold rounded-2xl flex items-center justify-center gap-3 text-base transition-all">
+                            <i class="fa-regular fa-calendar-check text-brand-purpleLight"></i>
+                            <span data-i18n="btn-reserve">حجزکرنا مێزێ</span>
+                        </a>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-3 gap-4 pt-8 border-t border-gray-800/80 text-center lg:text-start">
+                        <div>
+                            <p class="text-2xl font-bold text-brand-purpleLight">100%</p>
+                            <p class="text-xs text-gray-400" data-i18n="stat-fresh">کەرەستێن نوی</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-brand-blueLight">50+</p>
+                            <p class="text-xs text-gray-400" data-i18n="stat-dishes">جۆرێن خوارنێ</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-purple-400">4.9 ★</p>
+                            <p class="text-xs text-gray-400" data-i18n="stat-rating">پلەیا کڕیاران</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Display / Food Showcase -->
+                <div class="relative flex justify-center">
+                    <div class="relative w-full max-w-md lg:max-w-none">
+                        <!-- Outer Glow Ring -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-brand-purple to-brand-blue rounded-3xl blur-2xl opacity-40 animate-pulse"></div>
+                        
+                        <!-- Main Frame Showcase -->
+                        <div class="relative glass-panel rounded-3xl p-4 sm:p-6 overflow-hidden border border-purple-500/20">
+                            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80" alt="Pêlîn Atmosphere" class="w-full h-80 sm:h-96 object-cover rounded-2xl shadow-2xl">
+                            
+                            <!-- Floating Card Overlay -->
+                            <div class="absolute bottom-8 right-8 left-8 glass-panel p-4 rounded-2xl border border-white/10 flex items-center gap-4 bg-gray-950/80">
+                                <div class="w-12 h-12 rounded-xl bg-purple-600/30 flex items-center justify-center text-purple-300 text-xl font-bold flex-shrink-0">
+                                    <i class="fa-solid fa-mug-hot"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white" data-i18n="float-card-title">کافێ و خوارنگەها پێلین</h4>
+                                    <p class="text-xs text-gray-400" data-i18n="float-card-sub">زاخۆ - جاددا گشتی</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-20 relative bg-brand-bgDark/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Gallery Grid -->
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80" alt="Restaurant interior" class="rounded-2xl h-48 sm:h-64 w-full object-cover shadow-lg border border-purple-900/30 transform hover:scale-105 transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Delicious Food" class="rounded-2xl h-48 sm:h-64 w-full object-cover shadow-lg border border-blue-900/30 translate-y-6 transform hover:scale-105 transition duration-300">
+                </div>
+
+                <!-- Text Content -->
+                <div class="space-y-6">
+                    <div class="inline-block px-3 py-1 rounded-lg bg-blue-900/40 border border-blue-500/30 text-blue-300 text-xs font-bold uppercase tracking-wider" data-i18n="about-subtitle">
+                        سەربۆرا مە
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n="about-title">
+                        بێهنڤەدانا تە یا خۆش ل پێلین دەستپێدکەت
+                    </h2>
+                    <p class="text-gray-300 leading-relaxed text-sm sm:text-base" data-i18n="about-text-1">
+                        خارنگەهـ و کافێیا پێلین ل باژێرێ زاخۆ هاتیە دروستکرن بۆ هندێ بلیتەکا تایبەت و خۆش دگەل خێزان و هەڤالێن خۆ دەرباز بکەی. ئەم شانازیێ ب پێشکەشکرنا خوارنێن سەردەمیانە و نێرگەلێن ئاست بەرز دکەین.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed text-sm sm:text-base" data-i18n="about-text-2">
+                        ژ تشتێ سپێدێ هەتا خوارنێن ئێڤاری یێن گرانبەها، شێفێن مە ب باشترین کەرەستە خوارنێ ئامادەدکەن.
+                    </p>
+
+                    <!-- Features checklist -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-purpleLight"></i>
+                            <span class="text-sm font-semibold text-gray-200" data-i18n="feat-1">کەشوهەوایەکێ ئارام</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-blueLight"></i>
+                            <span class="text-sm font-semibold text-gray-200" data-i18n="feat-2">پارکینگا تایبەت</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-purpleLight"></i>
+                            <span class="text-sm font-semibold text-gray-200" data-i18n="feat-3">کادرێ پرۆفیشناڵ</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-blueLight"></i>
+                            <span class="text-sm font-semibold text-gray-200" data-i18n="feat-4">وای فایا خێرایێ بێبەرامبەر</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="px-3 py-1 rounded-full bg-purple-900/40 text-purple-300 text-xs font-bold uppercase tracking-wider border border-purple-500/30" data-i18n="menu-badge">قائما خوارنان</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3" data-i18n="menu-title">مێنیویا کافێ و خارنگەها پێلین</h2>
+                <p class="text-gray-400 text-sm mt-2" data-i18n="menu-sub">خۆشترین تام ل دیڤ حەزا تە</p>
+            </div>
+
+            <!-- Search Bar & Category Filters -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
+                
+                <!-- Category Buttons -->
+                <div class="flex flex-wrap justify-center gap-2 w-full md:w-auto" id="category-filters">
+                    <button onclick="filterMenu('all')" class="menu-tab active-tab px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all border border-gray-800" data-cat="all" data-i18n="cat-all">هەمی</button>
+                    <button onclick="filterMenu('breakfast')" class="menu-tab px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-gray-300 hover:text-white bg-gray-900/80 hover:bg-gray-800 transition-all border border-gray-800" data-cat="breakfast" data-i18n="cat-breakfast">تشتێ سپێدێ</button>
+                    <button onclick="filterMenu('main')" class="menu-tab px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-gray-300 hover:text-white bg-gray-900/80 hover:bg-gray-800 transition-all border border-gray-800" data-cat="main" data-i18n="cat-main">خوارنێن سەرەکی</button>
+                    <button onclick="filterMenu('drinks')" class="menu-tab px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-gray-300 hover:text-white bg-gray-900/80 hover:bg-gray-800 transition-all border border-gray-800" data-cat="drinks" data-i18n="cat-drinks">ڤەخوارن</button>
+                    <button onclick="filterMenu('dessert')" class="menu-tab px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-gray-300 hover:text-white bg-gray-900/80 hover:bg-gray-800 transition-all border border-gray-800" data-cat="dessert" data-i18n="cat-desserts">شریناهی</button>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative w-full md:w-64">
+                    <input type="text" id="menu-search" onkeyup="searchMenu()" placeholder="گەریان د مێنیویێ دا..." class="w-full bg-gray-900/90 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-purpleLight pr-10">
+                    <i class="fa-solid fa-magnifying-glass absolute top-3.5 right-3 text-gray-400 text-sm"></i>
+                </div>
+            </div>
+
+            <!-- MENU ITEMS GRID -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-container">
+                <!-- Javascript will dynamic render menu items here -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- RESERVATION SECTION -->
+    <section id="reservation" class="py-20 relative bg-brand-cardBg/40">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-purple-500/30 shadow-2xl">
+                
+                <div class="text-center mb-8">
+                    <i class="fa-solid fa-utensils text-3xl text-brand-purpleLight mb-2"></i>
+                    <h2 class="text-3xl font-extrabold text-white" data-i18n="res-title">حجزکرنا مێزێ</h2>
+                    <p class="text-gray-400 text-sm mt-1" data-i18n="res-sub">جهێ خۆ ژ پێشوەخت ڤە ببڕە بۆ دەمێن تایبەت</p>
+                </div>
+
+                <form id="reservation-form" onsubmit="handleReservation(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        
+                        <!-- Name -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1" data-i18n="form-name">ناڤێ تەمام</label>
+                            <input type="text" required placeholder="ئەحمەد زاخۆیی" class="w-full bg-gray-900/90 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-purpleLight">
+                        </div>
+
+                        <!-- Phone -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1" data-i18n="form-phone">ژمارەیا موبایلێ</label>
+                            <input type="tel" required placeholder="0750 XXX XX XX" class="w-full bg-gray-900/90 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-purpleLight">
+                        </div>
+
+                        <!-- Date -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1" data-i18n="form-date">مێژوو</label>
+                            <input type="date" required class="w-full bg-gray-900/90 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-purpleLight">
+                        </div>
+
+                        <!-- Time -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1" data-i18n="form-time">دەمهژمێر</label>
+                            <input type="time" required class="w-full bg-gray-900/90 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-purpleLight">
+                        </div>
+
+                    </div>
+
+                    <!-- Guests -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1" data-i18n="form-guests">ژمارەیا کەسان</label>
+                        <select class="w-full bg-gray-900/90 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-purpleLight">
+                            <option value="1">1 کەس</option>
+                            <option value="2" selected>2 کەس</option>
+                            <option value="4">4 کەس</option>
+                            <option value="6">6 کەس یا پتر</option>
+                        </select>
+                    </div>
+
+                    <!-- Note -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1" data-i18n="form-note">تێبینی یێن زێدە (ئەگەر هەبن)</label>
+                        <textarea rows="3" placeholder="..." class="w-full bg-gray-900/90 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-purpleLight"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-4 gradient-btn text-white font-bold rounded-xl shadow-lg hover:scale-[1.01] transition-transform flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span data-i18n="btn-send-res">بڕێژە بۆ حجزکرنێ</span>
+                    </button>
+                </form>
+
+                <!-- Feedback Message -->
+                <div id="res-success-msg" class="hidden mt-4 p-4 rounded-xl bg-green-900/40 border border-green-500/40 text-green-300 text-center text-sm">
+                    <i class="fa-solid fa-circle-check text-xl mb-1 block"></i>
+                    <span data-i18n="res-success">حجزکرنا تە ب سەرکەفتیانە هاته تۆمارکرن! دێ نێزیک پەیوەندیێ ب تە کەن.</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & CONTACT SECTION -->
+    <section id="contact" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Info Cards -->
+                <div class="space-y-6">
+                    <div>
+                        <span class="px-3 py-1 rounded-full bg-blue-900/40 text-blue-300 text-xs font-bold uppercase tracking-wider border border-blue-500/30" data-i18n="contact-badge">ناڤ و نیشان</span>
+                        <h2 class="text-3xl font-extrabold text-white mt-3" data-i18n="contact-title">سەرەدانا مە بکە ل زاخۆ</h2>
+                        <p class="text-gray-400 text-sm mt-2" data-i18n="contact-desc">ئەم هەردەم بەرهەڤین بۆ پێشوازیکرنا وە ب گەرمترێن شێوە.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Address -->
+                        <div class="glass-panel p-4 rounded-2xl flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-600/20 text-brand-purpleLight flex items-center justify-center text-xl flex-shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-gray-400" data-i18n="lbl-address">ناڤ نیشان</h4>
+                                <p class="text-sm font-bold text-white" data-i18n="val-address">زاخۆ، جاددا گشتی، نێزیک پردی دەلال، پارێزگەها دهۆک</p>
+                            </div>
+                        </div>
+
+                        <!-- Hours -->
+                        <div class="glass-panel p-4 rounded-2xl flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-600/20 text-brand-blueLight flex items-center justify-center text-xl flex-shrink-0">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-gray-400" data-i18n="lbl-hours">دەمی کارکرنێ</h4>
+                                <p class="text-sm font-bold text-white" data-i18n="val-hours">هەمی ڕۆژان: 08:00 سپێدێ - 01:00 شەڤ</p>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="glass-panel p-4 rounded-2xl flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-600/20 text-brand-purpleLight flex items-center justify-center text-xl flex-shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-gray-400" data-i18n="lbl-phone">ژمارەیا پەیوەندیێ</h4>
+                                <p class="text-sm font-bold text-white" dir="ltr">+964 750 123 4567</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="pt-2 flex items-center gap-3">
+                        <a href="#" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-brand-purple flex items-center justify-center text-gray-300 hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-brand-blue flex items-center justify-center text-gray-300 hover:text-white transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-green-600 flex items-center justify-center text-gray-300 hover:text-white transition-all"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-red-600 flex items-center justify-center text-gray-300 hover:text-white transition-all"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Map Frame / Map Simulation -->
+                <div class="glass-panel rounded-3xl overflow-hidden border border-gray-800 min-h-[320px] relative flex flex-col justify-between p-6 bg-gradient-to-br from-gray-900 to-brand-cardBg">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs text-purple-400 font-bold" data-i18n="map-title">گووگل ماپ (Google Maps)</span>
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2" data-i18n="map-heading">دەمژمێرێن خزمەتگۆزاریێ ل زاخۆ</h3>
+                        <p class="text-xs text-gray-400" data-i18n="map-sub">ئەم د ئامادەینە بۆ پێشوازیا وە دگەل پارکینگا تایبەت و خزمەتگوزارییا سەردەمیانە.</p>
+                    </div>
+
+                    <!-- Map graphic card -->
+                    <div class="my-6 p-6 rounded-2xl bg-gray-950/80 border border-purple-500/20 text-center space-y-3">
+                        <i class="fa-solid fa-map-location-dot text-4xl text-brand-purpleLight"></i>
+                        <p class="text-sm text-gray-200 font-semibold" data-i18n="map-prompt">کافێ و خارنگەها پێلین - زاخۆ</p>
+                        <a href="https://maps.google.com" target="_blank" class="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-blue hover:bg-brand-blueDark text-white text-xs font-bold rounded-xl transition-all shadow-md">
+                            <i class="fa-solid fa-diamond-turn-right"></i>
+                            <span data-i18n="btn-open-map">ئاراستەیان سەر گووگل ماپ ڤەکە</span>
+                        </a>
+                    </div>
+
+                    <div class="text-xs text-center text-gray-500">
+                        Pêlîn Restaurant & Cafe • Zakho, Kurdistan Region
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-12 border-t border-gray-800/80 pt-8 pb-6 bg-gray-950">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs text-gray-500" data-i18n="footer-copy">
+                © 2026 کافێ و خارنگەها پێلین (Pêlîn). هەمی ماف پاراستینە.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // TRANSLATIONS DICTIONARY
+        const translations = {
+            ku: {
+                "brand-tagline": "کافێ و خارنگەهـ",
+                "nav-home": "سەرەکی",
+                "nav-about": "دەربارەی مە",
+                "nav-menu": "مێنیو",
+                "nav-reservation": "حجزکرن",
+                "nav-contact": "پەیوەندی",
+                "call-us": "پەیوەندیێ بکە",
+                "hero-badge": "زاخۆ - باشترین خارنگەهـ و کافێ",
+                "hero-title-1": "تامەکا جیاواز و",
+                "hero-title-2": "کەشوهەوایەکێ سحراوی",
+                "hero-desc": "بەخێربهێن بۆ کافێ و خارنگەها پێلین ل زاخۆ. جهەکێ ناوازە بۆ خوارنێن خۆشێن کوردی و جیهانی، ڤەخوارنێن سارد و گەرم، دگەل خزمەتگۆزاریا بەرز.",
+                "btn-view-menu": "دیدەڤانیا مێنیویێ بکە",
+                "btn-reserve": "حجزکرنا مێزێ",
+                "stat-fresh": "کەرەستێن نوی",
+                "stat-dishes": "جۆرێن خوارنێ",
+                "stat-rating": "پلەیا کڕیاران",
+                "float-card-title": "کافێ و خوارنگەها پێلین",
+                "float-card-sub": "زاخۆ - جاددا گشتی",
+                "about-subtitle": "سەربۆرا مە",
+                "about-title": "بێهنڤەدانا تە یا خۆش ل پێلین دەستپێدکەت",
+                "about-text-1": "خارنگەهـ و کافێیا پێلین ل باژێرێ زاخۆ هاتیە دروستکرن بۆ هندێ بلیتەکا تایبەت و خۆش دگەل خێزان و هەڤالێن خۆ دەرباز بکەی. ئەم شانازیێ ب پێشکەشکرنا خوارنێن سەردەمیانە و نێرگەلێن ئاست بەرز دکەین.",
+                "about-text-2": "ژ تشتێ سپێدێ هەتا خوارنێن ئێڤاری یێن گرانبەها، شێفێن مە ب باشترین کەرەستە خوارنێ ئامادەدکەن.",
+                "feat-1": "کەشوهەوایەکێ ئارام",
+                "feat-2": "پارکینگا تایبەت",
+                "feat-3": "کادرێ پرۆفیشناڵ",
+                "feat-4": "وای فایا خێرایێ بێبەرامبەر",
+                "menu-badge": "قائما خوارنان",
+                "menu-title": "مێنیویا کافێ و خارنگەها پێلین",
+                "menu-sub": "خۆشترین تام ل دیڤ حەزا تە",
+                "cat-all": "هەمی",
+                "cat-breakfast": "تشتێ سپێدێ",
+                "cat-main": "خوارنێن سەرەکی",
+                "cat-drinks": "ڤەخوارن",
+                "cat-desserts": "شریناهی",
+                "res-title": "حجزکرنا مێزێ",
+                "res-sub": "جهێ خۆ ژ پێشوەخت ڤە ببڕە بۆ دەمێن تایبەت",
+                "form-name": "ناڤێ تەمام",
+                "form-phone": "ژمارەیا موبایلێ",
+                "form-date": "مێژوو",
+                "form-time": "دەمژمێر",
+                "form-guests": "ژمارەیا کەسان",
+                "form-note": "تێبینی یێن زێدە (ئەگەر هەبن)",
+                "btn-send-res": "بڕێژە بۆ حجزکرنێ",
+                "res-success": "حجزکرنا تە ب سەرکەفتیانە هاته تۆمارکرن! دێ نێزیک پەیوەندیێ ب تە کەن.",
+                "contact-badge": "ناڤ و نیشان",
+                "contact-title": "سەرەدانا مە بکە ل زاخۆ",
+                "contact-desc": "ئەم هەردەم بەرهەڤین بۆ پێشوازیکرنا وە ب گەرمترێن شێوە.",
+                "lbl-address": "ناڤ نیشان",
+                "val-address": "زاخۆ، جاددا گشتی، نێزیک پردی دەلال، پارێزگەها دهۆک",
+                "lbl-hours": "دەمی کارکرنێ",
+                "val-hours": "هەمی ڕۆژان: 08:00 سپێدێ - 01:00 شەڤ",
+                "lbl-phone": "ژمارەیا پەیوەندیێ",
+                "map-title": "گووگل ماپ (Google Maps)",
+                "map-heading": "دەمژمێرێن خزمەتگۆزاریێ ل زاخۆ",
+                "map-sub": "ئەم د ئامادەینە بۆ پێشوازیا وە دگەل پارکینگا تایبەت و خزمەتگوزارییا سەردەمیانە.",
+                "map-prompt": "کافێ و خارنگەها پێلین - زاخۆ",
+                "btn-open-map": "ئاراستەیان سەر گووگل ماپ ڤەکە",
+                "footer-copy": "© 2026 کافێ و خارنگەها پێلین (Pêlîn). هەمی ماف پاراستینە."
+            },
+            ar: {
+                "brand-tagline": "مطعم وكافيه",
+                "nav-home": "الرئيسية",
+                "nav-about": "من نحن",
+                "nav-menu": "القائمة",
+                "nav-reservation": "الحجز",
+                "nav-contact": "اتصل بنا",
+                "call-us": "اتصل بنا",
+                "hero-badge": "زاخو - أحدث مطعم وكافيه",
+                "hero-title-1": "نكهة فريدة و",
+                "hero-title-2": "أجواء ساحرة",
+                "hero-desc": "أهلاً بكم في مطعم وكافيه بيلين في زاخو. المكان الأمثل للاستمتاع بأشهى المأكولات الكردية والعالمية والمشروبات المتنوعة مع خدمة راقية.",
+                "btn-view-menu": "استعرض القائمة",
+                "btn-reserve": "حجز طاولة",
+                "stat-fresh": "مكونات طازجة",
+                "stat-dishes": "أصناف متنوعة",
+                "stat-rating": "تقييم الزوار",
+                "float-card-title": "مطعم وكافيه بيلين",
+                "float-card-sub": "زاخو - الشارع العام",
+                "about-subtitle": "خبرتنا",
+                "about-title": "أوقاتك المميزة تبدأ في بيلين",
+                "about-text-1": "تم تأسيس مطعم وكافيه بيلين في مدينة زاخو ليكون وجهتك الأولى لقضاء أجمل الأوقات مع العائلة والأصدقاء. نعتز بتقديم أطباق متميزة ونرجيلة فاخرة.",
+                "about-text-2": "من وجبات الإفطار الصباحية إلى وجبات العشاء الفاخرة، يحرص طهاتنا على اختيار أفضل المكونات الطازجة.",
+                "feat-1": "أجواء هادئة ومريحة",
+                "feat-2": "موقف سيارات خاص",
+                "feat-3": "كادر احترافي",
+                "feat-4": "إنترنت سريع مجاني",
+                "menu-badge": "قائمة الطعام",
+                "menu-title": "قائمة مطعم وكافيه بيلين",
+                "menu-sub": "أشهى الأطباق تناسب ذوقك",
+                "cat-all": "الكل",
+                "cat-breakfast": "الإفطار",
+                "cat-main": "الأطباق الرئيسية",
+                "cat-drinks": "المشروبات",
+                "cat-desserts": "الحلويات",
+                "res-title": "حجز طاولة",
+                "res-sub": "احجز طاولتك مسبقاً لأوقاتك الخاصة",
+                "form-name": "الاسم الكامل",
+                "form-phone": "رقم الهاتف",
+                "form-date": "التاريخ",
+                "form-time": "الوقت",
+                "form-guests": "عدد الأشخاص",
+                "form-note": "ملاحظات إضافية (إن وجدت)",
+                "btn-send-res": "تأكيد الحجز",
+                "res-success": "تم تسجيل حجزك بنجاح! سنقوم بالتواصل معك قريبًا.",
+                "contact-badge": "العنوان",
+                "contact-title": "زورونا في زاخو",
+                "contact-desc": "نحن دائمًا على استعداد لاستقبالكم بأجمل صورة.",
+                "lbl-address": "العنوان",
+                "val-address": "زاخو، الشارع العام، بالقرب من جسر دلال، محافظة دهوك",
+                "lbl-hours": "ساعات العمل",
+                "val-hours": "يومياً: 08:00 صباحاً - 01:00 ليلاً",
+                "lbl-phone": "رقم التواصل",
+                "map-title": "خرائط جوجل",
+                "map-heading": "ساعات الخدمة في زاخو",
+                "map-sub": "جاهزون لاستقبالكم مع موقف سيارات خاص وخدمات حديثة.",
+                "map-prompt": "مطعم وكافيه بيلين - زاخو",
+                "btn-open-map": "فتح الاتجاهات على خرائط جوجل",
+                "footer-copy": "© 2026 مطعم وكافيه بيلين (Pêlîn). جميع الحقوق محفوظة."
+            },
+            en: {
+                "brand-tagline": "Restaurant & Cafe",
+                "nav-home": "Home",
+                "nav-about": "About Us",
+                "nav-menu": "Menu",
+                "nav-reservation": "Reservation",
+                "nav-contact": "Contact",
+                "call-us": "Call Us",
+                "hero-badge": "Zakho - Premier Restaurant & Cafe",
+                "hero-title-1": "Exquisite Flavor &",
+                "hero-title-2": "Magical Atmosphere",
+                "hero-desc": "Welcome to Pêlîn Restaurant & Cafe in Zakho. The ultimate destination for delicious Kurdish and International cuisine, refreshing drinks, and luxury ambiance.",
+                "btn-view-menu": "View Menu",
+                "btn-reserve": "Book a Table",
+                "stat-fresh": "Fresh Ingredients",
+                "stat-dishes": "Menu Dishes",
+                "stat-rating": "Customer Rating",
+                "float-card-title": "Pêlîn Cafe & Restaurant",
+                "float-card-sub": "Zakho - Main Street",
+                "about-subtitle": "Our Story",
+                "about-title": "Your Great Moments Begin at Pêlîn",
+                "about-text-1": "Pêlîn Restaurant & Cafe was established in Zakho to provide a unique dining experience for families and friends. We take pride in serving high-end dishes and premium hookah.",
+                "about-text-2": "From morning breakfast to lavish dinner meals, our chefs prepare everything with top-quality fresh ingredients.",
+                "feat-1": "Relaxing Ambiance",
+                "feat-2": "Private Parking",
+                "feat-3": "Professional Staff",
+                "feat-4": "Free High-Speed Wi-Fi",
+                "menu-badge": "Food List",
+                "menu-title": "Pêlîn Menu",
+                "menu-sub": "Delicious tastes crafted for you",
+                "cat-all": "All",
+                "cat-breakfast": "Breakfast",
+                "cat-main": "Main Courses",
+                "cat-drinks": "Drinks",
+                "cat-desserts": "Desserts",
+                "res-title": "Table Reservation",
+                "res-sub": "Reserve your table in advance for special times",
+                "form-name": "Full Name",
+                "form-phone": "Phone Number",
+                "form-date": "Date",
+                "form-time": "Time",
+                "form-guests": "Number of Guests",
+                "form-note": "Additional Notes (Optional)",
+                "btn-send-res": "Submit Reservation",
+                "res-success": "Your reservation has been received successfully! We will contact you soon.",
+                "contact-badge": "Location",
+                "contact-title": "Visit Us in Zakho",
+                "contact-desc": "We are always ready to welcome you with warm hospitality.",
+                "lbl-address": "Address",
+                "val-address": "Zakho, Main Street, Near Delal Bridge, Duhok Governorate",
+                "lbl-hours": "Working Hours",
+                "val-hours": "Everyday: 08:00 AM - 01:00 AM",
+                "lbl-phone": "Contact Phone",
+                "map-title": "Google Maps",
+                "map-heading": "Service Hours in Zakho",
+                "map-sub": "Ready to host you with spacious parking and luxury seating.",
+                "map-prompt": "Pêlîn Restaurant & Cafe - Zakho",
+                "btn-open-map": "Open Directions in Google Maps",
+                "footer-copy": "© 2026 Pêlîn Restaurant & Cafe. All rights reserved."
+            }
+        };
+
+        // SAMPLE MENU ITEMS
+        const menuItems = [
+            {
+                id: 1,
+                category: "breakfast",
+                title: { ku: "تشتێ سپێدێ یێ شاهانە", ar: "فطور ملكي مشكل", en: "Royal Breakfast Platter" },
+                desc: { ku: "پەنێر، هێک، هنگڤین، قەشتا سروشتی، زەیتون و نانێ گەرم", ar: "أجبان متنوعة، بيض، عسل، قشطة بلدي، زيتون وخبز ساخن", en: "Assorted cheeses, eggs, honey, fresh cream, olives & hot bread" },
+                price: "12,000 IQD",
+                image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 2,
+                category: "main",
+                title: { ku: "کەبابا پێلین یا تایبەت", ar: "كباب بيلين الخاص", en: "Pêlîn Special Kebab" },
+                desc: { ku: "گۆشتێ گۆلکی یێ ئاست بەرز دگەل برنج و سەلاتە و نانێ تەندورێ", ar: "لحم عجل فاخر مشوي مع الأرز والسلاطة والخبز الطازج", en: "Premium grilled minced meat served with rice and fresh salad" },
+                price: "18,000 IQD",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 3,
+                category: "main",
+                title: { ku: "ستێکا گۆشتی ب سۆسا قارچکان", ar: "ستيك لحم بصلصة الفطر", en: "Beef Steak with Mushroom Sauce" },
+                desc: { ku: "پارچەیا گۆشتی یا برژاوی ب سۆسا خست یا قارچکان", ar: "قطعة لحم بقر مشوية مع صلصة الفطر الغنية", en: "Tender grilled beef steak served with creamy mushroom sauce" },
+                price: "24,000 IQD",
+                image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 4,
+                category: "drinks",
+                title: { ku: "کاپوچینۆ ب کرێمێ", ar: "كابوتشينو بالكريمة", en: "Pêlîn Special Cappuccino" },
+                desc: { ku: "قهوا ئیسپریسۆ ب شیڕێ کەفکری و تۆزا کاکاوێ", ar: "قهوة إسبرسو مع حليب مبخر ورغوة غنية", en: "Espresso with steamed milk foam and cocoa powder" },
+                price: "5,000 IQD",
+                image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 5,
+                category: "drinks",
+                title: { ku: "موکیتۆیا میوەیان", ar: "موخيتو الفواكه الانتعاش", en: "Refreshing Fruit Mojito" },
+                desc: { ku: "لێمۆن، نەعناع، سەهۆڵ و شەرەبا فواکەهێ", ar: "ليمون طازج، نعناع، ثلج ونكهات فواكه استوائية", en: "Fresh lime, mint leaves, crushed ice and tropical juice" },
+                price: "6,000 IQD",
+                image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 6,
+                category: "dessert",
+                title: { ku: "کێکێ چۆکلێت یێ گەرم (Lava Cake)", ar: "كيك الشوكولاتة الساخنة", en: "Molten Chocolate Lava Cake" },
+                desc: { ku: "کێکێ چۆکلێتا تواوی دگەل ئایسکرێما ڤانیلا", ar: "كيك شوكولاتة ذائبة يقدم مع آيس كريم الفانيليا", en: "Warm chocolate cake with oozing center and vanilla ice cream" },
+                price: "7,500 IQD",
+                image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80"
+            }
+        ];
+
+        let currentLang = 'ku';
+        let currentCategory = 'all';
+
+        // INITIALIZATION
+        window.onload = function() {
+            renderMenu();
+            setupMobileMenu();
+        };
+
+        // LANGUAGE SWITCHING LOGIC
+        function setLanguage(lang) {
+            currentLang = lang;
+            const htmlTag = document.documentElement;
+
+            // Set Direction and Fonts
+            if (lang === 'en') {
+                htmlTag.setAttribute('dir', 'ltr');
+                htmlTag.setAttribute('lang', 'en');
+                document.body.className = "font-latin selection:bg-brand-purpleLight selection:text-white pb-12";
+            } else {
+                htmlTag.setAttribute('dir', 'rtl');
+                htmlTag.setAttribute('lang', lang);
+                document.body.className = "font-arabic selection:bg-brand-purpleLight selection:text-white pb-12";
+            }
+
+            // Update Active Lang Button Styles
+            ['ku', 'ar', 'en'].forEach(l => {
+                const btn = document.getElementById(`lang-${l}`);
+                if (l === lang) {
+                    btn.className = "px-2.5 py-1 text-xs font-bold rounded-lg transition-all text-white bg-brand-purple shadow";
+                } else {
+                    btn.className = "px-2.5 py-1 text-xs font-bold rounded-lg transition-all text-gray-400 hover:text-white";
+                }
+            });
+
+            // Update UI Texts
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            // Update Brand Logo dynamically if needed
+            document.getElementById('brand-logo-name').innerText = (lang === 'en') ? "Pêlîn" : "پێلین";
+
+            // Re-render menu with updated translations
+            renderMenu();
+        }
+
+        // RENDER MENU ITEMS
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            const searchQuery = document.getElementById('menu-search').value.toLowerCase();
+
+            container.innerHTML = '';
+
+            const filtered = menuItems.filter(item => {
+                const matchesCategory = (currentCategory === 'all' || item.category === currentCategory);
+                const titleText = item.title[currentLang] || item.title['ku'];
+                const matchesSearch = titleText.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-400">
+                        <i class="fa-solid fa-utensils text-4xl mb-3 text-gray-600 block"></i>
+                        <span>چ خوارن نەهاتن لێگەڕیان...</span>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "glass-panel rounded-2xl overflow-hidden border border-purple-900/20 hover:border-purple-500/40 transition-all hover:scale-[1.02] flex flex-col justify-between group";
+
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${item.image}" alt="${item.title[currentLang]}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold bg-brand-purpleDark/80 backdrop-blur-md text-white border border-purple-500/30">
+                                ${item.price}
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-white mb-2">${item.title[currentLang]}</h3>
+                            <p class="text-xs text-gray-400 leading-relaxed">${item.desc[currentLang]}</p>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-gray-800/50 mt-2">
+                        <span class="text-xs text-brand-purpleLight font-semibold">Pêlîn Zakho</span>
+                        <button onclick="quickOrder('${item.title[currentLang]}')" class="px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white text-xs font-bold transition-all border border-blue-500/30">
+                            <i class="fa-solid fa-plus ml-1"></i> داواکرن
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // FILTER MENU CATEGORIES
+        function filterMenu(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.menu-tab').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = "menu-tab active-tab px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all border border-transparent shadow-lg";
+                } else {
+                    btn.className = "menu-tab px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-gray-300 hover:text-white bg-gray-900/80 hover:bg-gray-800 transition-all border border-gray-800";
+                }
+            });
+            renderMenu();
+        }
+
+        // SEARCH MENU
+        function searchMenu() {
+            renderMenu();
+        }
+
+        // QUICK ORDER ALERT
+        function quickOrder(itemName) {
+            const msg = (currentLang === 'en') 
+                ? `To order "${itemName}", please call us or contact via WhatsApp!` 
+                : (currentLang === 'ar')
+                ? `لطلب "${itemName}"، يرجى الاتصال بنا أو التواصل عبر الواتساب!`
+                : `بۆ داواکرنا "${itemName}"، هیڤیدارین پەیوەندیێ بکەی ئانکو ب رێکا واتساپێ نامێ بڕێژی!`;
+            
+            alert(msg);
+        }
+
+        // HANDLE RESERVATION FORM
+        function handleReservation(e) {
+            e.preventDefault();
+            const msgBox = document.getElementById('res-success-msg');
+            msgBox.classList.remove('hidden');
+            document.getElementById('reservation-form').reset();
+            setTimeout(() => {
+                msgBox.classList.add('hidden');
+            }, 6000);
+        }
+
+        // MOBILE MENU TOGGLE
+        function setupMobileMenu() {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                if (menu.classList.contains('hidden')) {
+                    icon.className = "fa-solid fa-bars text-xl";
+                } else {
+                    icon.className = "fa-solid fa-xmark text-xl";
+                }
+            });
+
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    icon.className = "fa-solid fa-bars text-xl";
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+```
